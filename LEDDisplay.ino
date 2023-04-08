@@ -19,19 +19,24 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-butVal = getButVals();
-switch(butVal):
-  case 1:
-    incNum();
-    break;
-  case 2:
-    count(countDelay); //count up to nine 
-    break;
-  case 3:
-    typeNum();
-    break;
-  default:
-    break;    
+  //smile();
+
+while(digitalRead(incBut) || digitalRead(countBut)){
+  int butVal = getButVals();
+  switch(butVal){
+    case 1:
+      incNum();
+      break;
+    case 2:
+      count(countDelay); //count up to nine 
+      break;
+    case 3:
+      typeNum();
+      break;
+    default:
+      break;
+    }
+}  
 }
 
 //get button inputs and return a binary value from 0 to 3
@@ -209,4 +214,13 @@ void error(){ //make exclamation mark
   digitalWrite(2, HIGH);
   digitalWrite(7, HIGH);
   
+}
+
+void smile(){
+  blank(); //sets current number to -1
+  digitalWrite(3, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(11, HIGH);
 }
