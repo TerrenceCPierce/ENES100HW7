@@ -4,7 +4,7 @@ const int countBut = 13;
 const int minLED = 2;
 const int maxLED = 11;
 
-int butDelay = 750; //how long between checks to see if both are pressed
+int butDelay = 400; //how long between checks to see if both are pressed
 int countDelay = 1000;
 
 int curNum = -1; //negative one means no number
@@ -15,18 +15,24 @@ void setup() {
   }
   pinMode(incBut, INPUT);
   pinMode(countBut, INPUT);
+  Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   //smile();
 
+
 while(digitalRead(incBut) || digitalRead(countBut)){
+  //Serial.println("Entered while");
   int butVal = getButVals();
+  Serial.println(butVal);
   switch(butVal){
+    /* took this feature out
     case 1:
       incNum();
       break;
+    */
     case 2:
       count(countDelay); //count up to nine 
       break;
@@ -36,7 +42,10 @@ while(digitalRead(incBut) || digitalRead(countBut)){
     default:
       break;
     }
-}  
+}
+  //Serial.println("out of while");
+
+
 }
 
 //get button inputs and return a binary value from 0 to 3
@@ -55,6 +64,7 @@ int getButVals(){
 }
 
 void incNum(){ //increases/loops back to next number
+  Serial.println("In incNum");
   int next;  
   if(curNum == 9)
     next = 0;
@@ -64,10 +74,15 @@ void incNum(){ //increases/loops back to next number
 }
 
 void count(int time){ //counts from 0 or current number to 9
+if(curNum == 9)
+zero();
+
+
   for(int i = max(0,curNum); i <= 9; i++){
     setNum(i);
     delay(time);
   }
+
 }
 
 void typeNum(){
@@ -141,6 +156,7 @@ void two(){
   for (int i = minLED; i <= 5; i++) { //for each LED
     digitalWrite(i, HIGH);
   }
+  digitalWrite(7, HIGH);  
   digitalWrite(8, HIGH);
   digitalWrite(9, HIGH);
   digitalWrite(10, HIGH);
